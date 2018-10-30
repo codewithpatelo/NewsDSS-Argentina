@@ -1,0 +1,5 @@
+# dependencies
+/node_modules
+/public/assests
+# environmental varibles
+.env
