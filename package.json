@@ -11,7 +11,7 @@
     "REST"
   ],
   "author": "Patricio J. Gerpe",
-  "license": "ISC",
+  "license": "gpl",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "cookie-parser": "~1.4.3",
