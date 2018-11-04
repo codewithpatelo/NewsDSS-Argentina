@@ -170,7 +170,7 @@ response = {
 
 ## Limitaciones y Aclaraciones
 
-* Los corpus de entrenamiento son demasiado pequeños. Este proyecto necesita voluntarios para incrementar, emplolijar y labelear corpus de noticias.
+* Los corpus de entrenamiento son demasiado pequeños, lo cuál hace que este proyecto **no este funcional** de ninguna manera. **Este proyecto necesita voluntarios para incrementar, emplolijar y labelear corpus de noticias.**
 * Los pesos asignados y sus valores son asignados manualmente, a juicio subjetivo.
 * No existe aun un dataset con información financiera de los concentrados economicos de medios.
 * No necesariamente un clasificador de Bayes es el método más efectivo para clasificar corpus.
