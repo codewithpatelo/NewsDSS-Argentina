@@ -177,6 +177,7 @@ response = {
 * Hay que solicitar permiso para usar el chequeabot de chequeado.
 * Depende de heuristicas y reglas en parte.
 * Avatares animados de BotLibre son limitados, en este caso se eligió uno acorde al theme de diseño, aunque podría haber sido uno sin genero especifico.
+* Es una versión BETA no libre de bugs.
 
 ## Código disponible a la comunidad.
 
