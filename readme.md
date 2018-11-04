@@ -3,7 +3,7 @@
 ## Descripción
 Agente inteligente que analiza el texto de un artículo noticiario Argentino para analizar si es confiable de leer o no y en base a dicho resultado, realizar una recomendación accionable argumentada.
 
-Analisis inspirado en los 5 filtros de Chomsky en su libro 'Consenso Fabricado'.
+Analisis inspirado en los 5 filtros de Chomsky en su libro 'Consenso Manufacturado' (1995).
 
 El propósito de esta aplicación que darle a los usuarios una herramienta para elaborar juicios informados acerca de la confiabilidad de una noticia.
 Tendremos en cuenta una gran diversidad de variables tales cómo, ¿Es una noticia que pertenece a un medio de un grupo concetrado de poder? ¿Quién financia ese medio? ¿Cómo monetiza? ¿En el texto predomina el lenguaje subjetivo u objetivo? ¿Qué tan actual es la noticia? ¿Usan varias fuentas para afirmar lo qué dicen? ¿Las afirmaciones del texto estan argumentadas o no? 
@@ -66,16 +66,16 @@ Entenderemos a este atributo como la cantidad de oraciones objetivas presentes e
 2. A2: Accesibilidad
 Accesibilidad posee los siguientes sub-atributos:
     1. A2a: Indice de lectura. Se usa un indicador built-in de LorcaJS que indica que tan sencillo es el articulo para leer.
-	2. A2b: Presencia de oraciones con lenguaje asertivo (clasificador de Bayes) sobre total de oraciones del texto.
+    2. A2b: Presencia de oraciones con lenguaje asertivo (clasificador de Bayes) sobre total de oraciones del texto.
 
 3. A3: Verificabilidad
     1. A3a: Chequeabilidad. Se usa chequeabot de Chequeado. (Ahora se esta usando un clasificador de Bayes con el corpus de entrenamiento).
-	2. A3b: Cantidad de fuentes. Se usa una heuristica para detectar si el texto tiene fuentes o no.
+	2. A3b: Cantidad de fuentes. Se usa una regla para detectar si el texto tiene fuentes o no.
 
 4. A4: Confiabilidad
     1. A4a: Presencia de oraciones argumentadas (Clasificador de Bayes) sobre total de oraciones.
-	2. A4b: Fecha de publicación del articulo > 2015  (Verificamos si el texto es actual)
-	3. A4c: Independencia (Verificamos si el medio es independiente o depende de un grupo economico o del estado.)
+    2. A4b: Fecha de publicación del articulo > 2015  (Verificamos si el texto es actual)
+    3. A4c: Independencia (Verificamos si el medio es independiente o depende de un grupo economico o del estado.)
 	
 		
 Cada atributo recibe un peso (weight) que representa su importancia. --> Se puede usar el metodo HPA para hacer este proceso.
@@ -139,8 +139,8 @@ Route: **/filter**
 
 ```javascript
 PostBody = {
-			url: <url>
-			};
+	  url: <url>
+	};
 ```
 
 ```javascript
@@ -168,10 +168,16 @@ response = {
   descripcion: '' }
 ```
 
-## Limitaciones
+## Limitaciones y Aclaraciones
 
-* Los corpus de entrenamiento son demasiado pequeños.
-* Los pesos asignados y sus valores son asignados manualmente.
+* Los corpus de entrenamiento son demasiado pequeños. Este proyecto necesita voluntarios para incrementar, emplolijar y labelear corpus de noticias.
+* Los pesos asignados y sus valores son asignados manualmente, a juicio subjetivo.
 * No existe aun un dataset con información financiera de los concentrados economicos de medios.
+* No necesariamente un clasificador de Bayes es el método más efectivo para clasificar corpus.
 * Hay que solicitar permiso para usar el chequeabot de chequeado.
-* Depende de heuristicas en parte.
+* Depende de heuristicas y reglas en parte.
+* Avatares animados de BotLibre son limitados, en este caso se eligió uno acorde al theme de diseño, aunque podría haber sido uno sin genero especifico.
+
+## Código disponible a la comunidad.
+
+El código se deja abierto a la comunidad para quiénes deseen mejorarlo.
