@@ -178,6 +178,7 @@ response = {
 * Depende de heuristicas y reglas en parte.
 * Avatares animados de BotLibre son limitados, en este caso se eligió uno acorde al theme de diseño, aunque podría haber sido uno sin genero especifico.
 * Es una versión BETA no libre de bugs.
+* La voz se sintetiza con un motor gratuito de voz libre, esta pensado para el italiano. Para un TTS en español hay que integrar con una solución de cloud que tenga soporte en ese idioma.
 
 ## Código disponible a la comunidad.
 
