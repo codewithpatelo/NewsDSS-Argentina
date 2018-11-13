@@ -32,7 +32,7 @@
       web.width = "250";
       web.height = "300";
       web.prefix = null
-      web.addMessage("Bienvenido", "like", "smile", "");
+      web.addMessage("<%= result.texto %>", "like", "smile", "");
       web.processMessages();
 	  </script>
 	
@@ -43,7 +43,6 @@
     <div class="sidebar" data-color="purple" data-background-color="white" data-image="./assets/img/sidebar-2.jpg">
       <!--
         Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
-
         Tip 2: you can also add an image using data-image tag
     -->
       <div class="logo">
@@ -75,7 +74,7 @@
             </div>
           </li>
           <li class="nav-item">
-		  <p><small></small></p>
+		  <p><small><%= result.texto %></small></p>
 		  </li>
 
           <li class="nav-item  ">
@@ -98,10 +97,10 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-		    <img width="64" height="64" src=  > </img>
+		    <img width="64" height="64" src= <%= result.imagethum %> > </img>
 	
 			
-            <a class="navbar-brand" href="">Analisís de </a>
+            <a class="navbar-brand" href="">Analisís de <%= result.titulo %></a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only"></span>
@@ -129,7 +128,7 @@
                     <i class="material-icons">book</i>
                   </div>
                   <p class="card-category">Objetividad</p>
-                  <h3 class="card-title"> 
+                  <h3 class="card-title"> <%= result.objetividad %> / 10
                     <small></small>
                   </h3>
                 </div>
@@ -148,7 +147,7 @@
                              <i class="material-icons">assignment</i></i>
                   </div>
                   <p class="card-category">Accesibilidad</p>
-                  <h3 class="card-title"></h3>
+                  <h3 class="card-title"><%= result.accesibilidad %> / 10</h3>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
@@ -164,7 +163,7 @@
                   <i class="material-icons">check</i>
                   </div>
                   <p class="card-category">Verificabilidad</p>
-                  <h3 class="card-title"></h3>
+                  <h3 class="card-title"><%= result.verificabilidad %> / 10</h3>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
@@ -180,7 +179,7 @@
                      <i class="material-icons">list</i>
                   </div>
                   <p class="card-category">Confiabilidad</p>
-                  <h3 class="card-title"></h3>
+                  <h3 class="card-title"><%= result.confiabilidad %> / 10</h3>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
@@ -196,8 +195,15 @@
 			<div class="card mb-3">
    
   <div class="card-body">
-                      <h4 class="card-title">Resumen: </h4>
-      
+                      <h4 class="card-title">Resumen: <%= result.titulo %></h4>
+               <p class="card-category">Nombre del medio:    <a href="https://es.wikipedia.org/w/index.php?search=<%= result.nombre %>" target="_blank" rel="noopener noreferrer" > <%= result.nombre %></p> </a>
+               <p class="card-category">Dueño del medio:  <a href="https://www.google.com.ar/search?q=<%= result.dueno %>" target="_blank" rel="noopener noreferrer" > <%= result.dueno %> </a><a href="https://www.google.com.ar/search?q=<%= result.dueno %>tbm=fin" target="_blank" rel="noopener noreferrer" > Ver detalles financieros... </a>
+				   <a href="https://www.google.com.ar/search?q=<%= result.tema[0] %>+<%= result.tema[1] %>&tbm=nws" target="_blank" rel="noopener noreferrer" > Otros medios </a>
+				    <a href="http://chequeado.com/fullsearch/?cs=<%= result.tema[0] %>+<%= result.tema[1] %>+<%= result.nombre %>" target="_blank" rel="noopener noreferrer" > Chequear </a></p>
+				 <p class="card-category">Financiamiento:  <%= result.financiamiento %></p> 
+				 <p class="card-category">Monetización:  <%= result.monetizacion %></p> 
+				 <p class="card-category">Grupo Concentrado:  <%= result.esGrupoConcentrado %></p> 
+				  
 	<p class="card-text"><small class="text-muted"></small></p>
   </div>
 </div>
@@ -210,7 +216,7 @@
                   <div class="ct-chart" id="websiteViewsChart"></div>
                 </div>
                 <div class="card-body">
-                  <h4 class="card-title">Puntaje:  </h4>
+                  <h4 class="card-title">Puntaje: <%= result.puntaje %> </h4>
                   <p class="card-category"></p>
                 </div>
       
@@ -266,17 +272,14 @@
 
   <script>
 // Drawing a donut chart
-
 var data = {
   labels: ['Obj', 'Acce+', 'Veri+', 'Confia'],
   series: [
-    [1,2,3,4]
+    [<%= result.objetividad %> , <%= result.accesibilidad %>, <%= result.verificabilidad %>, <%= result.confiabilidad %>]
   ]
 };
-
 // In the global name space Chartist we call the Bar function to initialize a bar chart. As a first parameter we pass in a selector where we would like to get our chart created and as a second parameter we pass our data object.
 new Chartist.Bar('.ct-chart', data);
-
   </script>
 </body>
 

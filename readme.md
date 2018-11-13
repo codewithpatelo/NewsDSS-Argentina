@@ -30,6 +30,12 @@ Tendremos en cuenta una gran diversidad de variables tales cómo, ¿Es una notic
 * "lorca-nlp": "^1.0.12"
 * "natural": "^0.6.2"
 
+##### Matematica
+* "euclidean-distance": "^1.0.0",
+* "compute-hamming": "^1.1.0",
+* "mathjs": "^5.2.3"
+
+
 ### DataSets
 * FOPEA Mapa de medios - http://mapademediosfopea.com/analisis/
 * Corpus de entrenamiento con ejemplos de oraciones subjetivas y objetivas extraidas de noticias reales de Argentina ya labeleadas.
@@ -109,9 +115,20 @@ Ahora analizamos el texto con la librería de NLP **LorcaJS**. Tokenizamos el te
 
 Computamos cada uno de nuestros atributos en base de lo observado en el texto.
 
-Se rankea cada atributo en relación a su valor y su peso, y luego se computa un indice de decisión para el texto.
+Se rankea cada atributo en relación a su valor y su peso, y luego se computa un indice de decisión para el texto. 
 
-Si un umbral predeterminado es superado, se recomienda leer el archivo. En caso contrario el agente recomienda buscar la noticia desde otras fuentes.
+**Algoritmo** TOPSIS:
+
+1. Se calcula la distancia ecluidea entre el puntaje obtenido y el peor puntaje posible.
+![](https://wikimedia.org/api/rest_v1/media/math/render/svg/da482a8c2f0902dad096aab66a0459fecc20a23d)
+ 
+2. Se calcula la distancia ecluidea entr el puntaje obtenido y el mejor puntaje posible.
+![](https://wikimedia.org/api/rest_v1/media/math/render/svg/693633e4b0170769f93ed89c9714256698368b7a)
+
+3. Se calcula el indice de performance.
+![](https://wikimedia.org/api/rest_v1/media/math/render/svg/cd78e6f8cdbeea32bd6c3955533c09287a69dd41)
+
+Si el indice de performance supera un umbral predeterminado, se recomienda leer el archivo. En caso contrario el agente recomienda buscar la noticia desde otras fuentes.
 
 El agente formula en su respuesta sintetizada un orden de prioridad de los 3 argumentos más relevantes para tomar esa decisión en base al ranking realizado de atributos.
 
@@ -123,7 +140,7 @@ El agente formula en su respuesta sintetizada un orden de prioridad de los 3 arg
 * AIRBNB
 [AIRBNB JS CODE STYLE](https://dev.mysql.com/doc/ "AIRBNB JS CODE STYLE")
 
-### Configuration
+### Configuración
 
 * Eslint v-4.19.1 // AIRBNB Configuration
 
@@ -170,8 +187,16 @@ response = {
 
 ## Limitaciones
 
-* Los corpus de entrenamiento son demasiado pequeños.
-* Los pesos asignados y sus valores son asignados manualmente.
+* Los corpus de entrenamiento son demasiado pequeños, lo cuál hace que este proyecto no este funcional de ninguna manera. Este proyecto necesita voluntarios para incrementar, emplolijar y labelear corpus de noticias.
+* Los pesos asignados y sus valores son asignados manualmente, a juicio subjetivo.
 * No existe aun un dataset con información financiera de los concentrados economicos de medios.
+* No necesariamente un clasificador de Bayes es el método más efectivo para clasificar corpus.
 * Hay que solicitar permiso para usar el chequeabot de chequeado.
-* Depende de heuristicas en parte.
+* Avatares animados de BotLibre son limitados, en este caso se eligió uno acorde al theme de diseño, aunque podría haber sido uno sin genero especifico.
+* Es una versión BETA no libre de bugs.
+* La voz se sintetiza con un motor gratuito de voz libre, esta pensado para el italiano. Para un TTS en español hay que integrar con una solución de cloud que tenga soporte en ese idioma.
+
+## Referencias y bibliografía:
+
+* Değer Alper, Canan Başdar (2017). A Comparison of TOPSIS and ELECTRE Methods: An Application on the Factoring Industry.
+* Freire, S. M., Nascimento, A., & de Almeida, R. T. (2018). A Multiple Criteria Decision Making System for Setting Priorities. World Congress on Medical Physics and Biomedical Engineering 2018, 357–361. doi:10.1007/978-981-10-9035-6_65
