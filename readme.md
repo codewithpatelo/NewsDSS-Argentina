@@ -66,19 +66,20 @@ Nuestro agente inteligente tiene como objetivo recomendar que articulos de notic
 
 Tomaremos como atributos de nuestra decisión ciertos atributos deseables en el texto de la noticia:
 
-1. A1: Objetividad
+
+1. **A1**: Objetividad
 Entenderemos a este atributo como la cantidad de oraciones objetivas presentes en el texto sobre el total de oraciones del texto.
 
-2. A2: Accesibilidad
+2. **A2**: Accesibilidad
 Accesibilidad posee los siguientes sub-atributos:
     1. A2a: Indice de lectura. Se usa un indicador built-in de LorcaJS que indica que tan sencillo es el articulo para leer.
     2. A2b: Presencia de oraciones con lenguaje asertivo (clasificador de Bayes) sobre total de oraciones del texto.
 
-3. A3: Verificabilidad
+3. **A3**: Verificabilidad
     1. A3a: Chequeabilidad. Se usa chequeabot de Chequeado. (Ahora se esta usando un clasificador de Bayes con el corpus de entrenamiento).
 	2. A3b: Cantidad de fuentes. Se usa una regla para detectar si el texto tiene fuentes o no.
 
-4. A4: Confiabilidad
+4. **A4**: Confiabilidad
     1. A4a: Presencia de oraciones argumentadas (Clasificador de Bayes) sobre total de oraciones.
     2. A4b: Fecha de publicación del articulo > 2015  (Verificamos si el texto es actual)
     3. A4c: Independencia (Verificamos si el medio es independiente o depende de un grupo economico o del estado.)
@@ -87,17 +88,17 @@ Accesibilidad posee los siguientes sub-atributos:
 Cada atributo recibe un peso (weight) que representa su importancia. --> Se puede usar el metodo HPA para hacer este proceso.
 Por ahora se hizo de manera manual.
 
-1. A1: Objetividad  / Peso: 40%
+1. **A1**: Objetividad  / Peso: 40%
 
-2. A2: Accesibilidad / Peso: 10%
+2. **A2**: Accesibilidad / Peso: 10%
     1. A2a: Indice de lectura. / Peso: 90%
 	2. A2b: Presencia de oraciones con lenguaje asertivo. / Peso: 10%
 
-3. A3: Verificabilidad / Peso: 30%
+3. **A3**: Verificabilidad / Peso: 30%
     1. A3a: Chequeabilidad. / Peso: 80%
 	2. A3b: Cantidad de fuentes. / Peso: 20%
 
-4. A4: Confiabilidad / Peso: 20%
+4. **A4**: Confiabilidad / Peso: 20%
     1. A4a: Presencia de oraciones argumentadas / Peso: 5%
 	2. A4b: Fecha de publicación. Por ahora no se tiene en cuenta. En futuras versiones si...
 	3. A4c: Independencia / Peso: 95%
@@ -187,30 +188,25 @@ response = {
 
 ## Limitaciones y Aclaraciones
 
-<<<<<<< HEAD
+
 * Los corpus de entrenamiento son demasiado pequeños, lo cuál hace que este proyecto no este funcional de ninguna manera. Este proyecto necesita voluntarios para incrementar, emplolijar y labelear corpus de noticias.
-=======
-* Los corpus de entrenamiento son demasiado pequeños, lo cuál hace que este proyecto **no este funcional** de ninguna manera. **Este proyecto necesita voluntarios para incrementar, emplolijar y labelear corpus de noticias.**
->>>>>>> 13a96eb9663284990224a6aadcffe58a1f0c4371
 * Los pesos asignados y sus valores son asignados manualmente, a juicio subjetivo.
 * No existe aun un dataset con información financiera de los concentrados economicos de medios.
 * No necesariamente un clasificador de Bayes es el método más efectivo para clasificar corpus.
 * Hay que solicitar permiso para usar el chequeabot de chequeado.
-<<<<<<< HEAD
-=======
 * Depende de heuristicas y reglas en parte.
->>>>>>> 13a96eb9663284990224a6aadcffe58a1f0c4371
 * Avatares animados de BotLibre son limitados, en este caso se eligió uno acorde al theme de diseño, aunque podría haber sido uno sin genero especifico.
 * Es una versión BETA no libre de bugs.
 * La voz se sintetiza con un motor gratuito de voz libre, esta pensado para el italiano. Para un TTS en español hay que integrar con una solución de cloud que tenga soporte en ese idioma.
 
-<<<<<<< HEAD
+
 ## Referencias y bibliografía:
 
 * Değer Alper, Canan Başdar (2017). A Comparison of TOPSIS and ELECTRE Methods: An Application on the Factoring Industry.
 * Freire, S. M., Nascimento, A., & de Almeida, R. T. (2018). A Multiple Criteria Decision Making System for Setting Priorities. World Congress on Medical Physics and Biomedical Engineering 2018, 357–361. doi:10.1007/978-981-10-9035-6_65
-=======
+
+
 ## Código disponible a la comunidad.
 
 El código se deja abierto a la comunidad para quiénes deseen mejorarlo.
->>>>>>> 13a96eb9663284990224a6aadcffe58a1f0c4371
+
