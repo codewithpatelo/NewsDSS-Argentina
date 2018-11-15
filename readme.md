@@ -156,8 +156,8 @@ Route: **/filter**
 
 ```javascript
 PostBody = {
-			url: <url>
-			};
+    url: <url>
+};
 ```
 
 ```javascript
@@ -196,7 +196,24 @@ response = {
 * Es una versión BETA no libre de bugs.
 * La voz se sintetiza con un motor gratuito de voz libre, esta pensado para el italiano. Para un TTS en español hay que integrar con una solución de cloud que tenga soporte en ese idioma.
 
-## Referencias y bibliografía:
+## Referencias y bibliografía de soporte:
 
+Edward S.. Herman, & Chomsky, N. (1988). Manufacturing consent: The political economy of the mass media. London: Vintage.
+
+### NPM packages documentation
+* LorcaJS: https://github.com/dmarman/lorca
+
+### AHP (Algorithm: Analytic Hierarchy proccess)
+* Saaty, T. L. (1986). Axiomatic Foundation of the Analytic Hierarchy Process. Management Science, 32(7), 841. doi:10.1287/mnsc.32.7.841
+* Saaty, R. W. (1987). The analytic hierarchy process—what it is and how it is used. Mathematical Modelling, 9(3-5), 167. doi:10.1016/0270-0255(87)90473-8
+* Manoj Mathew (2018). Analytic Hierarchy Process (AHP). Youtube. Retrieved from https://www.youtube.com/watch?v=J4T70o8gjlk
+
+### TOPSIS (Algorithm: Technique for Order of Preference by Similarity to Ideal Solution)
+* Hwang, C.L.; Yoon, K. (1981). Multiple Attribute Decision Making: Methods and Applications. New York: Springer-Verlag.
+* Hwang, C.L.; Lai, Y.J.; Liu, T.Y. (1993). "A new approach for multiple objective decision making". Computers and Operational Research. 20: 889–899
 * Değer Alper, Canan Başdar (2017). A Comparison of TOPSIS and ELECTRE Methods: An Application on the Factoring Industry.
 * Freire, S. M., Nascimento, A., & de Almeida, R. T. (2018). A Multiple Criteria Decision Making System for Setting Priorities. World Congress on Medical Physics and Biomedical Engineering 2018, 357–361. doi:10.1007/978-981-10-9035-6_65
+* Mariana Arburua (2017). Método de Decisión Multicriterio: TOPSIS. Youtube. Retrieved from https://www.youtube.com/watch?v=p8WyEn14Cto
+
+### Razonamiento rebatible en problemas de decisión multi-criterio
+* Ferretti, E., Errecalde, M., García, A. J., & Simari, G. R. (2007, May). An application of defeasible logic programming to decision making in a robotic environment. In International Conference on Logic Programming and Nonmonotonic Reasoning (pp. 297-302). Springer, Berlin, Heidelberg.
