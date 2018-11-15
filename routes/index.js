@@ -300,23 +300,23 @@ router.post('/filter', (req, res, next) => {
       body += data;
     });
     resp.on('end', () => {
-	  // USAMOS CHEERIO PARA OBTENER EL TEXTO SIN TAGS DE HTML
+      // USAMOS CHEERIO PARA OBTENER EL TEXTO SIN TAGS DE HTML
       const $ = cheerio.load(String(body));
 
       // body = striptags(body, [], ' ');
       body = $('body').text();
 
-	  // SACAMOS LA INFORMACION QUE PODEMOS DE LOS METATAGS DE OPENGRAPH
+      // SACAMOS LA INFORMACION QUE PODEMOS DE LOS METATAGS DE OPENGRAPH
       response.imagethum = $('meta[property="og:image"]').attr('content');
       response.titulo = $('meta[property="og:title"]').attr('content');
       response.descripcion = $('meta[property="og:description"]').attr('content');
-
-	  // USAMOS LORCA PARA ANALIZAR EL TEXTO LINGUISTICAMENTE
-	  const doc = lorca(body);
+    
+      // USAMOS LORCA PARA ANALIZAR EL TEXTO LINGUISTICAMENTE
+      const doc = lorca(body);
 
 
 	  // Para detectar el posible tema del texto , agarramos todo el texto y le sacamos las stopwords...
-	  let nText = String(body).toLowerCase();
+      let nText = String(body).toLowerCase();
       const stopWords = [response.nombre, ' al ', ' no ', ' si ', ' su ', 'qué', 'más', ' uno ', ' como ', ' con ', 'La ', 'El ', 'Lo ', ' son ', 'Los ', 'No ', ' las ', ' sus ', 'Su ', ' con ', 'Te ', 'Para ', ' yo ', ' el ', ' se ', ' por ', ' vos ', ' un ', ' de ', ' tu ', ' para ', ' el ', ' lo ', ' los ', ' ella ', ' de ', ' es ', ' una ', ' fue ', ' tiene ', ' la ', ' y ', ' del ', ' los ', ' que ', ' a ', ' en ', ' el '];
 
 
@@ -327,7 +327,7 @@ router.post('/filter', (req, res, next) => {
       // Usamos lorca para manipular la linguistica del texto
       nText = lorca(String(nText));
 
-	  // El metodo concordance nos dice cual es las palabras más repetidas... sacamos las dos primeras que se repitan que no sean stopwords.
+      // El metodo concordance nos dice cual es las palabras más repetidas... sacamos las dos primeras que se repitan que no sean stopwords.
       nText = nText.concordance().sort(2).get();
 
       response.tema = Object.keys(nText).map(key => [String(key), nText[key]]);
@@ -340,16 +340,16 @@ router.post('/filter', (req, res, next) => {
       response.tema = fixArray;
 
 
-	  // AHORA vamos a computar los atributos de nuestra decisión en base a lo que encontremos en el texto...
+     // AHORA vamos a computar los atributos de nuestra decisión en base a lo que encontremos en el texto...
       let objectivity = 0;
       let argumentativity = 0;
-	  let verificability = 0;
-	  const accesibility = 0;
-	  let assertiveness = 0;
-	  let powerConcentration = 0;
+      let verificability = 0;
+      let accesibility = 0;
+      let assertiveness = 0;
+      let powerConcentration = 0;
 
 
-	  // Pasa por cada oración y la hace clasificador por el clasificador de Bayes que entrenamos con LorcaJS.
+      // Pasa por cada oración y la hace clasificador por el clasificador de Bayes que entrenamos con LorcaJS.
       for (var i = 0; i != doc.sentences().get().length; i++) {
 		  if (verificabilidad.classify(doc.sentences().get()[i]) === 'verificable') {
 			  verificability += 1;
@@ -373,19 +373,19 @@ router.post('/filter', (req, res, next) => {
       }
 
 
-	  // Computamos objetividad...
-	  // Cantidad de oraciones objetivas / Total de oraciones del texto , en un indice del 1 al 10.
-	  response.objetividad = Math.round(objectivity / doc.sentences().get().length) * 10;
+     // Computamos objetividad...
+     // Cantidad de oraciones objetivas / Total de oraciones del texto , en un indice del 1 al 10.
+     response.objetividad = Math.round(objectivity / doc.sentences().get().length) * 10;
 
-	  // Computamos accesibilidad...
+      // Computamos accesibilidad...
       // Facilidad de lectura (LorcaJS) en un indice del 1 al 10
       const readability = Math.round((doc.ifsz().get() / 100)) * 10;
 
       // Computamos asertvidad... (Cantidad de oraciones con lenguaje asertivo / total oraciones en un indice de 1 a 10)
       asertiveness = (Math.round(assertiveness / doc.sentences().get().length * 100) / 100) * 10;
 
-	 // Se multiplica cada subatributo por un peso y se divide por dos.
-	 response.accesibilidad = Math.round((readability * 0.9 + asertiveness * 0.1) / 2);
+     // Se multiplica cada subatributo por un peso y se divide por dos.
+     response.accesibilidad = Math.round((readability * 0.9 + asertiveness * 0.1) / 2);
 
 
       // Computamos verificabilidad
@@ -395,14 +395,14 @@ router.post('/filter', (req, res, next) => {
       if (response.fuentes.length > 5) {
         sources = 10;
       } else {
-		  sources = (response.fuentes.length / 5) * 10;
+        sources = (response.fuentes.length / 5) * 10;
       }
       response.verificabilidad = Math.round((verificability * 0.8 + sources * 0.2) / 2);
 
 
       // Computamos confiabilidad...
 
-	 // Presencia de oraciones argumentadas / Total oraciones en un indice de 10
+      // Presencia de oraciones argumentadas / Total oraciones en un indice de 10
       argumentativity = (Math.round(argumentativity / doc.sentences().get().length * 100) / 100) * 10;
 
 	  // Aca no tenemos forma por ahora de sacar la fecha de publicación pero lo solucionaremos en versiones posteriores.
@@ -416,8 +416,17 @@ router.post('/filter', (req, res, next) => {
 	  response.confiabilidad = Math.round((argumentativity * 0.95 + powerConcentration * 0.05) / 2);
 
 
-	  // Ahora que computamos nuestros atributos con sus subtributos vamos a crear una matriz de decisión representada en
-	  // este JSON Array.
+      // Ahora que computamos nuestros atributos con sus subtributos vamos a crear una matriz de decisión representada en
+      // este JSON Array.
+	    
+     // El agente desarrolla argumentos a favor u en contra en base a las siguientes reglas rebatibles:
+
+     /*
+     
+     1. Textos con presencia de lenguaje objetivo, vocabulario sencilloo, contenido chequeable y afirmaciones argumentadas usualmente son confiables de leer.
+     2. Si texto N posee dichas caracteristicas creo que el texto es confiable, hasta que algo o alguien me desmuestre lo contrario.
+     
+     */
 
       const criterias = [
         {
@@ -450,7 +459,7 @@ router.post('/filter', (req, res, next) => {
           rank: 0,
         },
 
-	    ];
+       ];
 
       // Calculamos el vector del puntaje con el pesado correspondiente...
       criterias[0].rating = criterias[0].score * criterias[0].weight;
@@ -458,18 +467,18 @@ router.post('/filter', (req, res, next) => {
       criterias[2].rating = criterias[2].score * criterias[2].weight;
       criterias[3].rating = criterias[3].score * criterias[3].weight;
 
-	 // Tomamos el puntaje obtenido.
-	 const actualScore = [criterias[0].rating, criterias[1].rating, criterias[2].rating, criterias[3].rating];
+      // Tomamos el puntaje obtenido.
+      const actualScore = [criterias[0].rating, criterias[1].rating, criterias[2].rating, criterias[3].rating];
 
-	 // Definimos el mejor escenario posible...
-	 const idealScore = [10 * 0.4, 10 * 0.1, 10 * 0.3, 10 * 0.2];
+      // Definimos el mejor escenario posible...
+      const idealScore = [10 * 0.4, 10 * 0.1, 10 * 0.3, 10 * 0.2];
 
-	 // Definimos el peor escenario posible...
-	 const worstScore = [0, 0, 0, 0];
+      // Definimos el peor escenario posible...
+      const worstScore = [0, 0, 0, 0];
 
       // ALGORITMO DE TOPSIS
 
-      // Calculamos la distancia ecluidea del puntaje obtenido y el mejor escenario.
+     // Calculamos la distancia ecluidea del puntaje obtenido y el mejor escenario.
       const distP = distance(actualScore, idealScore);
 
       // Calculamos la distancia ecluidea del puntaje obtenido y el mejor escenario.
@@ -480,7 +489,7 @@ router.post('/filter', (req, res, next) => {
 
       console.log(sim);
 
-	 // Calculamos puntaje final.
+      // Calculamos puntaje final.
       const score = criterias[0].rating + criterias[1].rating + criterias[2].rating + criterias[3].rating;
 
 	  response.puntaje = Math.round(sim * 10);
@@ -494,10 +503,12 @@ router.post('/filter', (req, res, next) => {
 	  }
 
 
-	  // Computamos tiempo de lectura que usaremos en la rta del agente..
-	  const tiempoLectura = Math.round(doc.readingTime());
+      // Computamos tiempo de lectura que usaremos en la rta del agente..
+      const tiempoLectura = Math.round(doc.readingTime());
 
-	  // Si pasa umbral..
+      // Regla rebatible: Usualmente los textos con presencia de caracteristicas A,B,C son confiables de leer.
+      // Texto tiene / no tiene caracteristicas A,B,C entonces creo que el Texto es ...
+      // ya que posee / no posee A,B,C...
       if (sim > 0.65) {
         // Vamos a rankear cada argumento de mayor a menor...
         criterias.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
