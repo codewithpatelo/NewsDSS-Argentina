@@ -198,7 +198,8 @@ response = {
 
 ## Referencias y bibliografía de soporte:
 
-Edward S.. Herman, & Chomsky, N. (1988). Manufacturing consent: The political economy of the mass media. London: Vintage.
+* Edward S.. Herman, & Chomsky, N. (1988). Manufacturing consent: The political economy of the mass media. London: Vintage.
+* Al Jazeera English (2017). Noam Chomsky - The 5 Filters of the Mass Media Machine. Youtube. Retrieved from https://www.youtube.com/watch?v=34LGPIXvU5M
 
 ### NPM packages documentation
 * LorcaJS: https://github.com/dmarman/lorca
