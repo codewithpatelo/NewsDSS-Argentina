@@ -1,29 +1,14 @@
-const express = require('express');
-
-const router = express.Router();
-
-// Librerias para extraer HTML de los articulos
-const https = require('https');
-const cheerio = require('cheerio');
-// Preprocesamiento - Elimina los tags de html del string extraido.
-const striptags = require('striptags');
-
-// Libreria para usar timestamps en NodeJS.
-const moment = require('moment');
+/*****************************************************************************************************************
+******************************************************************************************************************                           
+                                                index - index.js
+******************************************************************************************************************
+******************************************************************************************************************
+Este archivo contiene la lógica de nuestro agente de soporte de decisión.
 
 
-// Herramientas de matematica y algoritmica.
-const math = require('mathjs');
-const compare = require('hamming-distance');
-const hamming = require('compute-hamming');
-let distance = require('euclidean-distance');
+******************************************************************************************************************
 
-// Herramientas de NLP
-const natural = require('natural');
-const lorca = require('lorca-nlp');
-
-
-/* Vamos a partir de una URL de una noticia.
+Vamos a partir de una URL de una noticia.
 	   Usamos el dataset de FOPEA de mapas de medios para indicar:
 	   Si el articulo viene de un medio que es parte de un grupo concentrado de medios y cuál.
 	   Forma de financiamiento y monetización del medio.
@@ -59,10 +44,39 @@ const lorca = require('lorca-nlp');
   atributos.
 
 
-   En caso que el texto no pase el umbral el agente recomienda otros sitios que hablen del mismo tema. */
+   En caso que el texto no pase el umbral el agente recomienda otros sitios que hablen del mismo tema.
+   
+******************************************************************************************************************
+*****************************************************************************************************************/
+
+const express = require('express');
+
+const router = express.Router();
+
+// Librerias para extraer HTML de los articulos
+const https = require('https');
+const cheerio = require('cheerio');
+// Preprocesamiento - Elimina los tags de html del string extraido.
+const striptags = require('striptags');
+
+// Libreria para usar timestamps en NodeJS.
+const moment = require('moment');
 
 
-// //////////////////////////////// ENTRENAMIENTO de Clasificadores ////////////////////////////
+// Herramientas de matematica y algoritmica.
+const math = require('mathjs');
+const compare = require('hamming-distance');
+const hamming = require('compute-hamming');
+let distance = require('euclidean-distance');
+
+// Herramientas de NLP
+const natural = require('natural');
+const lorca = require('lorca-nlp');
+
+
+/*****************************************************************************************************************                          
+                                          Entrenamiento de clasificadores
+******************************************************************************************************************/
 
 // Objetividad
 const objetividad = new natural.BayesClassifier();
