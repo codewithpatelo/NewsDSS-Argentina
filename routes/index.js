@@ -56,8 +56,6 @@ const router = express.Router();
 // Librerias para extraer HTML de los articulos
 const https = require('https');
 const cheerio = require('cheerio');
-// Preprocesamiento - Elimina los tags de html del string extraido.
-const striptags = require('striptags');
 
 // Libreria para usar timestamps en NodeJS.
 const moment = require('moment');
@@ -320,17 +318,17 @@ router.post('/filter', (req, res, next) => {
       // body = striptags(body, [], ' ');
       body = $('body').text();
 
-	  // SACAMOS LA INFORMACION QUE PODEMOS DE LOS METATAGS DE OPENGRAPH
+      // SACAMOS LA INFORMACION QUE PODEMOS DE LOS METATAGS DE OPENGRAPH
       response.imagethum = $('meta[property="og:image"]').attr('content');
       response.titulo = $('meta[property="og:title"]').attr('content');
       response.descripcion = $('meta[property="og:description"]').attr('content');
 
-	  // USAMOS LORCA PARA ANALIZAR EL TEXTO LINGUISTICAMENTE
-	  const doc = lorca(body);
+      // USAMOS LORCA PARA ANALIZAR EL TEXTO LINGUISTICAMENTE
+      const doc = lorca(body);
 
 
-	  // Para detectar el posible tema del texto , agarramos todo el texto y le sacamos las stopwords...
-	  let nText = String(body).toLowerCase();
+      // Para detectar el posible tema del texto , agarramos todo el texto y le sacamos las stopwords...
+      let nText = String(body).toLowerCase();
       const stopWords = [response.nombre, ' al ', ' no ', ' si ', ' su ', 'qué', 'más', ' uno ', ' como ', ' con ', 'La ', 'El ', 'Lo ', ' son ', 'Los ', 'No ', ' las ', ' sus ', 'Su ', ' con ', 'Te ', 'Para ', ' yo ', ' el ', ' se ', ' por ', ' vos ', ' un ', ' de ', ' tu ', ' para ', ' el ', ' lo ', ' los ', ' ella ', ' de ', ' es ', ' una ', ' fue ', ' tiene ', ' la ', ' y ', ' del ', ' los ', ' que ', ' a ', ' en ', ' el '];
 
 
@@ -341,7 +339,7 @@ router.post('/filter', (req, res, next) => {
       // Usamos lorca para manipular la linguistica del texto
       nText = lorca(String(nText));
 
-	  // El metodo concordance nos dice cual es las palabras más repetidas... sacamos las dos primeras que se repitan que no sean stopwords.
+      // El metodo concordance nos dice cual es las palabras más repetidas... sacamos las dos primeras que se repitan que no sean stopwords.
       nText = nText.concordance().sort(2).get();
 
       response.tema = Object.keys(nText).map(key => [String(key), nText[key]]);
@@ -354,29 +352,29 @@ router.post('/filter', (req, res, next) => {
       response.tema = fixArray;
 
 
-	  // AHORA vamos a computar los atributos de nuestra decisión en base a lo que encontremos en el texto...
+      // AHORA vamos a computar los atributos de nuestra decisión en base a lo que encontremos en el texto...
       let objectivity = 0;
       let argumentativity = 0;
-	  let verificability = 0;
-	  const accesibility = 0;
-	  let assertiveness = 0;
-	  let powerConcentration = 0;
+      let verificability = 0;
+      const accesibility = 0;
+      let assertiveness = 0;
+      let powerConcentration = 0;
 
 
-	  // Pasa por cada oración y la hace clasificador por el clasificador de Bayes que entrenamos con LorcaJS.
+     // Pasa por cada oración y la hace clasificador por el clasificador de Bayes que entrenamos con LorcaJS.
       for (var i = 0; i != doc.sentences().get().length; i++) {
-		  if (verificabilidad.classify(doc.sentences().get()[i]) === 'verificable') {
-			  verificability += 1;
+           if (verificabilidad.classify(doc.sentences().get()[i]) === 'verificable') {
+	     verificability += 1;
         }
-		  if (objetividad.classify(doc.sentences().get()[i]) === 'objetivo') {
-			  objectivity += 1;
+           if (objetividad.classify(doc.sentences().get()[i]) === 'objetivo') {
+	      objectivity += 1;
         }
-		  if (argumentatividad.classify(doc.sentences().get()[i]) === 'argumentado') {
-			  argumentativity += 1;
+	   if (argumentatividad.classify(doc.sentences().get()[i]) === 'argumentado') {
+              argumentativity += 1;
         }
 
-		  if (asertividad.classify(doc.sentences().get()[i]) === 'asertivo') {
-			  assertiveness += 1;
+           if (asertividad.classify(doc.sentences().get()[i]) === 'asertivo') {
+              assertiveness += 1;
         }
 
         // USAMOS ESTA HEURISTICA PARA VER SI EL TEXTO CONTIENE FUENTES.
@@ -387,19 +385,19 @@ router.post('/filter', (req, res, next) => {
       }
 
 
-	  // Computamos objetividad...
-	  // Cantidad de oraciones objetivas / Total de oraciones del texto , en un indice del 1 al 10.
-	  response.objetividad = Math.round(objectivity / doc.sentences().get().length) * 10;
+     // Computamos objetividad...
+     // Cantidad de oraciones objetivas / Total de oraciones del texto , en un indice del 1 al 10.
+     response.objetividad = Math.round(objectivity / doc.sentences().get().length) * 10;
 
-	  // Computamos accesibilidad...
+      // Computamos accesibilidad...
       // Facilidad de lectura (LorcaJS) en un indice del 1 al 10
       const readability = Math.round((doc.ifsz().get() / 100)) * 10;
 
       // Computamos asertvidad... (Cantidad de oraciones con lenguaje asertivo / total oraciones en un indice de 1 a 10)
       asertiveness = (Math.round(assertiveness / doc.sentences().get().length * 100) / 100) * 10;
 
-	 // Se multiplica cada subatributo por un peso y se divide por dos.
-	 response.accesibilidad = Math.round((readability * 0.9 + asertiveness * 0.1) / 2);
+      // Se multiplica cada subatributo por un peso y se divide por dos.
+      response.accesibilidad = Math.round((readability * 0.9 + asertiveness * 0.1) / 2);
 
 
       // Computamos verificabilidad
@@ -409,14 +407,14 @@ router.post('/filter', (req, res, next) => {
       if (response.fuentes.length > 5) {
         sources = 10;
       } else {
-		  sources = (response.fuentes.length / 5) * 10;
+          sources = (response.fuentes.length / 5) * 10;
       }
       response.verificabilidad = Math.round((verificability * 0.8 + sources * 0.2) / 2);
 
 
       // Computamos confiabilidad...
 
-	 // Presencia de oraciones argumentadas / Total oraciones en un indice de 10
+      // Presencia de oraciones argumentadas / Total oraciones en un indice de 10
       argumentativity = (Math.round(argumentativity / doc.sentences().get().length * 100) / 100) * 10;
 
 	  // Aca no tenemos forma por ahora de sacar la fecha de publicación pero lo solucionaremos en versiones posteriores.
@@ -472,14 +470,14 @@ router.post('/filter', (req, res, next) => {
       criterias[2].rating = criterias[2].score * criterias[2].weight;
       criterias[3].rating = criterias[3].score * criterias[3].weight;
 
-	 // Tomamos el puntaje obtenido.
-	 const actualScore = [criterias[0].rating, criterias[1].rating, criterias[2].rating, criterias[3].rating];
+      // Tomamos el puntaje obtenido.
+      const actualScore = [criterias[0].rating, criterias[1].rating, criterias[2].rating, criterias[3].rating];
 
-	 // Definimos el mejor escenario posible...
-	 const idealScore = [10 * 0.4, 10 * 0.1, 10 * 0.3, 10 * 0.2];
+      // Definimos el mejor escenario posible...
+      const idealScore = [10 * 0.4, 10 * 0.1, 10 * 0.3, 10 * 0.2];
 
-	 // Definimos el peor escenario posible...
-	 const worstScore = [0, 0, 0, 0];
+      // Definimos el peor escenario posible...
+      const worstScore = [0, 0, 0, 0];
 
       // ALGORITMO DE TOPSIS
 
@@ -494,25 +492,60 @@ router.post('/filter', (req, res, next) => {
 
       console.log(sim);
 
-	 // Calculamos puntaje final.
+      // Calculamos puntaje final.
       const score = criterias[0].rating + criterias[1].rating + criterias[2].rating + criterias[3].rating;
 
-	  response.puntaje = Math.round(sim * 10);
+      response.puntaje = Math.round(sim * 100) / 100;
+	  
+      // Creamos un fuzzy set para definir nuestro umbral de decisión
+      let fuzzySet = {
+        linguisticLabels: ['low', 'medium', 'high'],
+	    fuzzyNumbers: [[0,0.16,0.33], [0.33,0.49,0.66], [0.66,0.83,1]]
+      };
 
-	  // Chequeamos si no pasamos el criterio para negativizar argumentos...
-	  if (sim < 0.65) {
+     // Verificamos a qué label nuestro valor es más perteneciente.
+     let membershipFunction = function(n, fn) {
+	     let distL = Math.round(Math.abs(n - math.median(fn.fuzzyNumbers[0])) * 100) / 100;;
+	     let distM = Math.round(Math.abs(n - math.median(fn.fuzzyNumbers[1])) * 100) / 100;;
+	     let distH = Math.round(Math.abs(n - math.median(fn.fuzzyNumbers[2])) * 100) / 100;;
+		 
+		 let memberValue = Math.min(distL,distM,distH);
+		 let memberLabel = '';
+		 
+		 switch(memberValue) {
+           case distL:
+             memberLabel = fn.linguisticLabels[0];
+           break;
+           case distM:
+             memberLabel = fn.linguisticLabels[1];
+           break;
+		   case distH:
+		     memberLabel = fn.linguisticLabels[2];
+		   break;
+           default:
+             memberLabel = fn.linguisticLabels[0];
+         }
+		 
+	     return memberLabel;
+     };
+	 
+	 let resultLabel = membershipFunction(response.puntaje, fuzzySet);
+      
+      
+
+      // Chequeamos si no pasamos el criterio para negativizar argumentos...
+	  if (resultLabel === 'low' || resultLabel === 'medium') {
 	    criterias[0].argument = 'en general, el texto abusa de la opinión y el lenguaje subjetivo';
 	    criterias[1].argument = 'usa una terminologia complejos son solo pueden ser entendidos por expertos';
 	    criterias[2].argument = 'el contenido de este texto es dificil de chequear';
 	    criterias[3].argument = 'observé que el autor suele asumir hechos y expresar su posición sin justificarse';
 	  }
 
+      // Computamos tiempo de lectura que usaremos en la rta del agente..
+      const tiempoLectura = Math.round(doc.readingTime());
 
-	  // Computamos tiempo de lectura que usaremos en la rta del agente..
-	  const tiempoLectura = Math.round(doc.readingTime());
-
-	  // Si pasa umbral..
-      if (sim > 0.65) {
+      // Si pasa umbral..
+      if (resultLabel === 'high') {
         // Vamos a rankear cada argumento de mayor a menor...
         criterias.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
         response.texto = `Analicé el articulo de ${response.nombre} sobre ${response.tema[0]} y ${response.tema[1]}. Te recomiendo leerlo ya que ` + `(A) ${criterias[0].argument} , (B) ${criterias[1].argument} y (C) ${criterias[2].argument}. Espero que te interese, te va a llevar unos ${tiempoLectura} minutos leerlo. Gracias por confiar en mi. `;
