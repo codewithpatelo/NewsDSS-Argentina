@@ -147,8 +147,8 @@ El agente formula en su respuesta sintetizada un orden de prioridad de los 3 arg
 
 ### Correción y linteo:
 
-* Chequear errores: `npm run check`
-* Chequear y corregir errores:  `npm run lint` or `npm run check -- --fix`
+* Chequear errores: `npm run lint`
+* Chequear y corregir errores:  `npm run lint-fix` or `npm run lint -- --fix`
 
 
 ## Endpoints
@@ -209,4 +209,9 @@ response = {
 ## Código disponible a la comunidad.
 
 El código se deja abierto a la comunidad para quiénes deseen mejorarlo.
+
+
+
+
+
 
