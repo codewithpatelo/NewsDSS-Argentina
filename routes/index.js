@@ -421,11 +421,11 @@ router.post('/filter', (req, res, next) => {
       if (response.fuentes.length > 5) {
         sources = 10;
       } else {
-<<<<<<< HEAD
+
 	  sources = (response.fuentes.length / 5) * 10;
-=======
+
           sources = (response.fuentes.length / 5) * 10;
->>>>>>> b7b198919df0bb002ddc8d1586ebb0552dbf9b4e
+
       }
       response.verificabilidad = Math.round((verificability * 0.8 + sources * 0.2) / 2);
 
