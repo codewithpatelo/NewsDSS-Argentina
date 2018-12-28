@@ -1,4 +1,4 @@
-<img src="./iaarblack.png" width="64" > **HUB**
+<img src="./iaarblack.png" width="128" > **HUB**
 # Asistente Inteligente analizador de noticias BETA
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/917d07fdcd1d4804b3b846995902f3dc)](https://app.codacy.com/app/patelotech/NewsDSS-Argentina?utm_source=github.com&utm_medium=referral&utm_content=patelotech/NewsDSS-Argentina&utm_campaign=Badge_Grade_Dashboard)
