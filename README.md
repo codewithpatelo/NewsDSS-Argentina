@@ -1,6 +1,9 @@
 # Asistente Inteligente analizador de noticias BETA
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/917d07fdcd1d4804b3b846995902f3dc)](https://app.codacy.com/app/patelotech/NewsDSS-Argentina?utm_source=github.com&utm_medium=referral&utm_content=patelotech/NewsDSS-Argentina&utm_campaign=Badge_Grade_Dashboard)
+[![build](https://travis-ci.org/patelotech/NewsDSS-Argentina.svg?branch=master)](https://travis-ci.org/patelotech/NewsDSS-Argentina)
+[![dependencies Status](https://david-dm.org/patelotech/NewsDSS-Argentina/status.svg)](https://david-dm.org/patelotech/NewsDSS-Argentina)
+[![Known Vulnerabilities](https://snyk.io/test/github/patelotech/topsis/badge.svg?targetFile=package.json)](https://snyk.io/test/github/patelotech/topsis?targetFile=package.json)
 
 ## Descripción
 Agente inteligente que analiza el texto de un artículo noticiario Argentino para analizar si es confiable de leer o no y en base a dicho resultado, realizar una recomendación accionable argumentada.
