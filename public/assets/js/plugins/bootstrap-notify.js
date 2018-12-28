@@ -1,13 +1,11 @@
 /*
 
 
-
      Creative Tim Modifications
 
      Lines: 236 was changed from top: 5px to top: 50% and we added margin-top: -9px. In this way the close button will be aligned vertically
      Line:219 - modified when the icon is set, we add the class "alert-with-icon", so there will be enough space for the icon.
 	 Lines: 179/222 - class() was changed to html() so we can add the Material Design Icons
-
 
 
 */
@@ -23,7 +21,7 @@
 
 /* global define:false, require: false, jQuery:false */
 
-(function(factory) {
+(function (factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
     define(['jquery'], factory);
@@ -34,19 +32,19 @@
     // Browser globals
     factory(jQuery);
   }
-}(function($) {
+}(($) => {
   // Create the defaults once
-  var defaults = {
+  let defaults = {
     element: 'body',
     position: null,
-    type: "info",
+    type: 'info',
     allow_dismiss: true,
     allow_duplicates: true,
     newest_on_top: false,
     showProgressbar: false,
     placement: {
-      from: "top",
-      align: "right"
+      from: 'top',
+      align: 'right',
     },
     offset: 20,
     spacing: 10,
@@ -57,41 +55,41 @@
     mouse_over: null,
     animate: {
       enter: 'animated fadeInDown',
-      exit: 'animated fadeOutUp'
+      exit: 'animated fadeOutUp',
     },
     onShow: null,
     onShown: null,
     onClose: null,
     onClosed: null,
     icon_type: 'class',
-    template: '<div data-notify="container" class="col-11 col-md-4 alert alert-{0}" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="material-icons">close</i></button><i data-notify="icon" class="material-icons"></i><span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>'
+    template: '<div data-notify="container" class="col-11 col-md-4 alert alert-{0}" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="material-icons">close</i></button><i data-notify="icon" class="material-icons"></i><span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
   };
 
-  String.format = function() {
-    var str = arguments[0];
-    for (var i = 1; i < arguments.length; i++) {
-      str = str.replace(RegExp("\\{" + (i - 1) + "\\}", "gm"), arguments[i]);
+  String.format = function () {
+    let str = arguments[0];
+    for (let i = 1; i < arguments.length; i++) {
+      str = str.replace(RegExp(`\\{${i - 1}\\}`, 'gm'), arguments[i]);
     }
     return str;
   };
 
   function isDuplicateNotification(notification) {
-    var isDupe = false;
+    let isDupe = false;
 
-    $('[data-notify="container"]').each(function(i, el) {
-      var $el = $(el);
-      var title = $el.find('[data-notify="title"]').text().trim();
-      var message = $el.find('[data-notify="message"]').html().trim();
+    $('[data-notify="container"]').each((i, el) => {
+      const $el = $(el);
+      const title = $el.find('[data-notify="title"]').text().trim();
+      const message = $el.find('[data-notify="message"]').html().trim();
 
       // The input string might be different than the actual parsed HTML string!
       // (<br> vs <br /> for example)
       // So we have to force-parse this as HTML here!
-      var isSameTitle = title === $("<div>" + notification.settings.content.title + "</div>").html().trim();
-      var isSameMsg = message === $("<div>" + notification.settings.content.message + "</div>").html().trim();
-      var isSameType = $el.hasClass('alert-' + notification.settings.type);
+      const isSameTitle = title === $(`<div>${notification.settings.content.title}</div>`).html().trim();
+      const isSameMsg = message === $(`<div>${notification.settings.content.message}</div>`).html().trim();
+      const isSameType = $el.hasClass(`alert-${notification.settings.type}`);
 
       if (isSameTitle && isSameMsg && isSameType) {
-        //we found the dupe. Set the var and stop checking.
+        // we found the dupe. Set the var and stop checking.
         isDupe = true;
       }
       return !isDupe;
@@ -102,49 +100,49 @@
 
   function Notify(element, content, options) {
     // Setup Content of Notify
-    var contentObj = {
+    const contentObj = {
       content: {
         message: typeof content === 'object' ? content.message : content,
         title: content.title ? content.title : '',
         icon: content.icon ? content.icon : '',
         url: content.url ? content.url : '#',
-        target: content.target ? content.target : '-'
-      }
+        target: content.target ? content.target : '-',
+      },
     };
 
     options = $.extend(true, {}, contentObj, options);
     this.settings = $.extend(true, {}, defaults, options);
     this._defaults = defaults;
-    if (this.settings.content.target === "-") {
+    if (this.settings.content.target === '-') {
       this.settings.content.target = this.settings.url_target;
     }
     this.animations = {
       start: 'webkitAnimationStart oanimationstart MSAnimationStart animationstart',
-      end: 'webkitAnimationEnd oanimationend MSAnimationEnd animationend'
+      end: 'webkitAnimationEnd oanimationend MSAnimationEnd animationend',
     };
 
     if (typeof this.settings.offset === 'number') {
       this.settings.offset = {
         x: this.settings.offset,
-        y: this.settings.offset
+        y: this.settings.offset,
       };
     }
 
-    //if duplicate messages are not allowed, then only continue if this new message is not a duplicate of one that it already showing
+    // if duplicate messages are not allowed, then only continue if this new message is not a duplicate of one that it already showing
     if (this.settings.allow_duplicates || (!this.settings.allow_duplicates && !isDuplicateNotification(this))) {
       this.init();
     }
   }
 
   $.extend(Notify.prototype, {
-    init: function() {
-      var self = this;
+    init() {
+      const self = this;
 
       this.buildNotify();
       if (this.settings.content.icon) {
         this.setIcon();
       }
-      if (this.settings.content.url != "#") {
+      if (this.settings.content.url != '#') {
         this.styleURL();
       }
       this.styleDismiss();
@@ -153,22 +151,22 @@
 
       this.notify = {
         $ele: this.$ele,
-        update: function(command, update) {
-          var commands = {};
-          if (typeof command === "string") {
+        update(command, update) {
+          let commands = {};
+          if (typeof command === 'string') {
             commands[command] = update;
           } else {
             commands = command;
           }
-          for (var cmd in commands) {
+          for (const cmd in commands) {
             switch (cmd) {
-              case "type":
-                this.$ele.removeClass('alert-' + self.settings.type);
-                this.$ele.find('[data-notify="progressbar"] > .progress-bar').removeClass('progress-bar-' + self.settings.type);
+              case 'type':
+                this.$ele.removeClass(`alert-${self.settings.type}`);
+                this.$ele.find('[data-notify="progressbar"] > .progress-bar').removeClass(`progress-bar-${self.settings.type}`);
                 self.settings.type = commands[cmd];
-                this.$ele.addClass('alert-' + commands[cmd]).find('[data-notify="progressbar"] > .progress-bar').addClass('progress-bar-' + commands[cmd]);
+                this.$ele.addClass(`alert-${commands[cmd]}`).find('[data-notify="progressbar"] > .progress-bar').addClass(`progress-bar-${commands[cmd]}`);
                 break;
-              case "icon":
+              case 'icon':
                 var $icon = this.$ele.find('[data-notify="icon"]');
                 if (self.settings.icon_type.toLowerCase() === 'class') {
                   $icon.html(commands[cmd]);
@@ -179,34 +177,33 @@
                   $icon.attr('src', commands[cmd]);
                 }
                 break;
-              case "progress":
+              case 'progress':
                 var newDelay = self.settings.delay - (self.settings.delay * (commands[cmd] / 100));
                 this.$ele.data('notify-delay', newDelay);
-                this.$ele.find('[data-notify="progressbar"] > div').attr('aria-valuenow', commands[cmd]).css('width', commands[cmd] + '%');
+                this.$ele.find('[data-notify="progressbar"] > div').attr('aria-valuenow', commands[cmd]).css('width', `${commands[cmd]}%`);
                 break;
-              case "url":
+              case 'url':
                 this.$ele.find('[data-notify="url"]').attr('href', commands[cmd]);
                 break;
-              case "target":
+              case 'target':
                 this.$ele.find('[data-notify="url"]').attr('target', commands[cmd]);
                 break;
               default:
-                this.$ele.find('[data-notify="' + cmd + '"]').html(commands[cmd]);
+                this.$ele.find(`[data-notify="${cmd}"]`).html(commands[cmd]);
             }
           }
-          var posX = this.$ele.outerHeight() + parseInt(self.settings.spacing) + parseInt(self.settings.offset.y);
+          const posX = this.$ele.outerHeight() + parseInt(self.settings.spacing) + parseInt(self.settings.offset.y);
           self.reposition(posX);
         },
-        close: function() {
+        close() {
           self.close();
-        }
+        },
       };
-
     },
-    buildNotify: function() {
-      var content = this.settings.content;
+    buildNotify() {
+      const content = this.settings.content;
       this.$ele = $(String.format(this.settings.template, this.settings.type, content.title, content.message, content.url, content.target));
-      this.$ele.attr('data-notify-position', this.settings.placement.from + '-' + this.settings.placement.align);
+      this.$ele.attr('data-notify-position', `${this.settings.placement.from}-${this.settings.placement.align}`);
       if (!this.settings.allow_dismiss) {
         this.$ele.find('[data-notify="dismiss"]').css('display', 'none');
       }
@@ -214,30 +211,27 @@
         this.$ele.find('[data-notify="progressbar"]').remove();
       }
     },
-    setIcon: function() {
-
+    setIcon() {
       this.$ele.addClass('alert-with-icon');
 
       if (this.settings.icon_type.toLowerCase() === 'class') {
         this.$ele.find('[data-notify="icon"]').html(this.settings.content.icon);
+      } else if (this.$ele.find('[data-notify="icon"]').is('img')) {
+        this.$ele.find('[data-notify="icon"]').attr('src', this.settings.content.icon);
       } else {
-        if (this.$ele.find('[data-notify="icon"]').is('img')) {
-          this.$ele.find('[data-notify="icon"]').attr('src', this.settings.content.icon);
-        } else {
-          this.$ele.find('[data-notify="icon"]').append('<img src="' + this.settings.content.icon + '" alt="Notify Icon" />');
-        }
+        this.$ele.find('[data-notify="icon"]').append(`<img src="${this.settings.content.icon}" alt="Notify Icon" />`);
       }
     },
-    styleDismiss: function() {
+    styleDismiss() {
       this.$ele.find('[data-notify="dismiss"]').css({
         position: 'absolute',
         right: '10px',
         top: '50%',
         marginTop: '-9px',
-        zIndex: this.settings.z_index + 2
+        zIndex: this.settings.z_index + 2,
       });
     },
-    styleURL: function() {
+    styleURL() {
       this.$ele.find('[data-notify="url"]').css({
         backgroundImage: 'url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7)',
         height: '100%',
@@ -245,43 +239,43 @@
         position: 'absolute',
         top: 0,
         width: '100%',
-        zIndex: this.settings.z_index + 1
+        zIndex: this.settings.z_index + 1,
       });
     },
-    placement: function() {
-      var self = this,
+    placement() {
+      let self = this,
         offsetAmt = this.settings.offset.y,
         css = {
           display: 'inline-block',
           margin: '15px auto',
           position: this.settings.position ? this.settings.position : (this.settings.element === 'body' ? 'fixed' : 'absolute'),
           transition: 'all .5s ease-in-out',
-          zIndex: this.settings.z_index
+          zIndex: this.settings.z_index,
         },
         hasAnimation = false,
         settings = this.settings;
 
-      $('[data-notify-position="' + this.settings.placement.from + '-' + this.settings.placement.align + '"]:not([data-closing="true"])').each(function() {
+      $(`[data-notify-position="${this.settings.placement.from}-${this.settings.placement.align}"]:not([data-closing="true"])`).each(function () {
         offsetAmt = Math.max(offsetAmt, parseInt($(this).css(settings.placement.from)) + parseInt($(this).outerHeight()) + parseInt(settings.spacing));
       });
       if (this.settings.newest_on_top === true) {
         offsetAmt = this.settings.offset.y;
       }
-      css[this.settings.placement.from] = offsetAmt + 'px';
+      css[this.settings.placement.from] = `${offsetAmt}px`;
 
       switch (this.settings.placement.align) {
-        case "left":
-        case "right":
-          css[this.settings.placement.align] = this.settings.offset.x + 'px';
+        case 'left':
+        case 'right':
+          css[this.settings.placement.align] = `${this.settings.offset.x}px`;
           break;
-        case "center":
+        case 'center':
           css.left = 0;
           css.right = 0;
           break;
       }
       this.$ele.css(css).addClass(this.settings.animate.enter);
-      $.each(Array('webkit-', 'moz-', 'o-', 'ms-', ''), function(index, prefix) {
-        self.$ele[0].style[prefix + 'AnimationIterationCount'] = 1;
+      $.each(Array('webkit-', 'moz-', 'o-', 'ms-', ''), (index, prefix) => {
+        self.$ele[0].style[`${prefix}AnimationIterationCount`] = 1;
       });
 
       $(this.settings.element).append(this.$ele);
@@ -295,15 +289,15 @@
         self.settings.onShow.call(this.$ele);
       }
 
-      this.$ele.one(this.animations.start, function() {
+      this.$ele.one(this.animations.start, () => {
         hasAnimation = true;
-      }).one(this.animations.end, function() {
+      }).one(this.animations.end, function () {
         if ($.isFunction(self.settings.onShown)) {
           self.settings.onShown.call(this);
         }
       });
 
-      setTimeout(function() {
+      setTimeout(function () {
         if (!hasAnimation) {
           if ($.isFunction(self.settings.onShown)) {
             self.settings.onShown.call(this);
@@ -311,28 +305,28 @@
         }
       }, 600);
     },
-    bind: function() {
-      var self = this;
+    bind() {
+      const self = this;
 
-      this.$ele.find('[data-notify="dismiss"]').on('click', function() {
+      this.$ele.find('[data-notify="dismiss"]').on('click', () => {
         self.close();
       });
 
-      this.$ele.mouseover(function() {
-        $(this).data('data-hover', "true");
-      }).mouseout(function() {
-        $(this).data('data-hover', "false");
+      this.$ele.mouseover(function () {
+        $(this).data('data-hover', 'true');
+      }).mouseout(function () {
+        $(this).data('data-hover', 'false');
       });
-      this.$ele.data('data-hover', "false");
+      this.$ele.data('data-hover', 'false');
 
       if (this.settings.delay > 0) {
         self.$ele.data('notify-delay', self.settings.delay);
-        var timer = setInterval(function() {
-          var delay = parseInt(self.$ele.data('notify-delay')) - self.settings.timer;
-          if ((self.$ele.data('data-hover') === 'false' && self.settings.mouse_over === "pause") || self.settings.mouse_over != "pause") {
-            var percent = ((self.settings.delay - delay) / self.settings.delay) * 100;
+        var timer = setInterval(() => {
+          const delay = parseInt(self.$ele.data('notify-delay')) - self.settings.timer;
+          if ((self.$ele.data('data-hover') === 'false' && self.settings.mouse_over === 'pause') || self.settings.mouse_over != 'pause') {
+            const percent = ((self.settings.delay - delay) / self.settings.delay) * 100;
             self.$ele.data('notify-delay', delay);
-            self.$ele.find('[data-notify="progressbar"] > div').attr('aria-valuenow', percent).css('width', percent + '%');
+            self.$ele.find('[data-notify="progressbar"] > div').attr('aria-valuenow', percent).css('width', `${percent}%`);
           }
           if (delay <= -(self.settings.timer)) {
             clearInterval(timer);
@@ -341,8 +335,8 @@
         }, self.settings.timer);
       }
     },
-    close: function() {
-      var self = this,
+    close() {
+      let self = this,
         posX = parseInt(this.$ele.css(this.settings.placement.from)),
         hasAnimation = false;
 
@@ -353,16 +347,16 @@
         self.settings.onClose.call(this.$ele);
       }
 
-      this.$ele.one(this.animations.start, function() {
+      this.$ele.one(this.animations.start, () => {
         hasAnimation = true;
-      }).one(this.animations.end, function() {
+      }).one(this.animations.end, function () {
         $(this).remove();
         if ($.isFunction(self.settings.onClosed)) {
           self.settings.onClosed.call(this);
         }
       });
 
-      setTimeout(function() {
+      setTimeout(() => {
         if (!hasAnimation) {
           self.$ele.remove();
           if (self.settings.onClosed) {
@@ -371,34 +365,33 @@
         }
       }, 600);
     },
-    reposition: function(posX) {
-      var self = this,
-        notifies = '[data-notify-position="' + this.settings.placement.from + '-' + this.settings.placement.align + '"]:not([data-closing="true"])',
+    reposition(posX) {
+      let self = this,
+        notifies = `[data-notify-position="${this.settings.placement.from}-${this.settings.placement.align}"]:not([data-closing="true"])`,
         $elements = this.$ele.nextAll(notifies);
       if (this.settings.newest_on_top === true) {
         $elements = this.$ele.prevAll(notifies);
       }
-      $elements.each(function() {
+      $elements.each(function () {
         $(this).css(self.settings.placement.from, posX);
         posX = (parseInt(posX) + parseInt(self.settings.spacing)) + $(this).outerHeight();
       });
-    }
+    },
   });
 
-  $.notify = function(content, options) {
-    var plugin = new Notify(this, content, options);
+  $.notify = function (content, options) {
+    const plugin = new Notify(this, content, options);
     return plugin.notify;
   };
-  $.notifyDefaults = function(options) {
+  $.notifyDefaults = function (options) {
     defaults = $.extend(true, {}, defaults, options);
     return defaults;
   };
-  $.notifyClose = function(command) {
-    if (typeof command === "undefined" || command === "all") {
+  $.notifyClose = function (command) {
+    if (typeof command === 'undefined' || command === 'all') {
       $('[data-notify]').find('[data-notify="dismiss"]').trigger('click');
     } else {
-      $('[data-notify-position="' + command + '"]').find('[data-notify="dismiss"]').trigger('click');
+      $(`[data-notify-position="${command}"]`).find('[data-notify="dismiss"]').trigger('click');
     }
   };
-
 }));
