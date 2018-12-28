@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 /** ***************************************************************************************************************
 ******************************************************************************************************************
+=======
+/*****************************************************************************************************************
+******************************************************************************************************************                           
+>>>>>>> b7b198919df0bb002ddc8d1586ebb0552dbf9b4e
                                                 index - index.js
 ******************************************************************************************************************
 ******************************************************************************************************************
@@ -45,9 +50,15 @@ Vamos a partir de una URL de una noticia.
 
 
    En caso que el texto no pase el umbral el agente recomienda otros sitios que hablen del mismo tema.
+<<<<<<< HEAD
 
 ******************************************************************************************************************
 **************************************************************************************************************** */
+=======
+   
+******************************************************************************************************************
+*****************************************************************************************************************/
+>>>>>>> b7b198919df0bb002ddc8d1586ebb0552dbf9b4e
 
 const express = require('express');
 
@@ -72,9 +83,15 @@ const natural = require('natural');
 const lorca = require('lorca-nlp');
 
 
+<<<<<<< HEAD
 /** ***************************************************************************************************************
                                           Entrenamiento de clasificadores
 ***************************************************************************************************************** */
+=======
+/*****************************************************************************************************************                          
+                                          Entrenamiento de clasificadores
+******************************************************************************************************************/
+>>>>>>> b7b198919df0bb002ddc8d1586ebb0552dbf9b4e
 
 // Objetividad
 const objetividad = new natural.BayesClassifier();
@@ -318,17 +335,17 @@ router.post('/filter', (req, res, next) => {
       // body = striptags(body, [], ' ');
       body = $('body').text();
 
-	  // SACAMOS LA INFORMACION QUE PODEMOS DE LOS METATAGS DE OPENGRAPH
+      // SACAMOS LA INFORMACION QUE PODEMOS DE LOS METATAGS DE OPENGRAPH
       response.imagethum = $('meta[property="og:image"]').attr('content');
       response.titulo = $('meta[property="og:title"]').attr('content');
       response.descripcion = $('meta[property="og:description"]').attr('content');
 
-	  // USAMOS LORCA PARA ANALIZAR EL TEXTO LINGUISTICAMENTE
-	  const doc = lorca(body);
+      // USAMOS LORCA PARA ANALIZAR EL TEXTO LINGUISTICAMENTE
+      const doc = lorca(body);
 
 
-	  // Para detectar el posible tema del texto , agarramos todo el texto y le sacamos las stopwords...
-	  let nText = String(body).toLowerCase();
+      // Para detectar el posible tema del texto , agarramos todo el texto y le sacamos las stopwords...
+      let nText = String(body).toLowerCase();
       const stopWords = [response.nombre, ' al ', ' no ', ' si ', ' su ', 'qué', 'más', ' uno ', ' como ', ' con ', 'La ', 'El ', 'Lo ', ' son ', 'Los ', 'No ', ' las ', ' sus ', 'Su ', ' con ', 'Te ', 'Para ', ' yo ', ' el ', ' se ', ' por ', ' vos ', ' un ', ' de ', ' tu ', ' para ', ' el ', ' lo ', ' los ', ' ella ', ' de ', ' es ', ' una ', ' fue ', ' tiene ', ' la ', ' y ', ' del ', ' los ', ' que ', ' a ', ' en ', ' el '];
 
 
@@ -339,7 +356,7 @@ router.post('/filter', (req, res, next) => {
       // Usamos lorca para manipular la linguistica del texto
       nText = lorca(String(nText));
 
-	  // El metodo concordance nos dice cual es las palabras más repetidas... sacamos las dos primeras que se repitan que no sean stopwords.
+      // El metodo concordance nos dice cual es las palabras más repetidas... sacamos las dos primeras que se repitan que no sean stopwords.
       nText = nText.concordance().sort(2).get();
 
       response.tema = Object.keys(nText).map(key => [String(key), nText[key]]);
@@ -355,26 +372,30 @@ router.post('/filter', (req, res, next) => {
       // AHORA vamos a computar los atributos de nuestra decisión en base a lo que encontremos en el texto...
       let objectivity = 0;
       let argumentativity = 0;
-	  let verificability = 0;
-	  const accesibility = 0;
-	  let assertiveness = 0;
-	  let powerConcentration = 0;
+      let verificability = 0;
+      const accesibility = 0;
+      let assertiveness = 0;
+      let powerConcentration = 0;
 
 
+<<<<<<< HEAD
       // Pasa por cada oración y la hace clasificador por el clasificador de Bayes que entrenamos con LorcaJS.
+=======
+     // Pasa por cada oración y la hace clasificador por el clasificador de Bayes que entrenamos con LorcaJS.
+>>>>>>> b7b198919df0bb002ddc8d1586ebb0552dbf9b4e
       for (var i = 0; i != doc.sentences().get().length; i++) {
-		  if (verificabilidad.classify(doc.sentences().get()[i]) === 'verificable') {
-			  verificability += 1;
+           if (verificabilidad.classify(doc.sentences().get()[i]) === 'verificable') {
+	     verificability += 1;
         }
-		  if (objetividad.classify(doc.sentences().get()[i]) === 'objetivo') {
-			  objectivity += 1;
+           if (objetividad.classify(doc.sentences().get()[i]) === 'objetivo') {
+	      objectivity += 1;
         }
-		  if (argumentatividad.classify(doc.sentences().get()[i]) === 'argumentado') {
-			  argumentativity += 1;
+	   if (argumentatividad.classify(doc.sentences().get()[i]) === 'argumentado') {
+              argumentativity += 1;
         }
 
-		  if (asertividad.classify(doc.sentences().get()[i]) === 'asertivo') {
-			  assertiveness += 1;
+           if (asertividad.classify(doc.sentences().get()[i]) === 'asertivo') {
+              assertiveness += 1;
         }
 
         // USAMOS ESTA HEURISTICA PARA VER SI EL TEXTO CONTIENE FUENTES.
@@ -385,11 +406,11 @@ router.post('/filter', (req, res, next) => {
       }
 
 
-	  // Computamos objetividad...
-	  // Cantidad de oraciones objetivas / Total de oraciones del texto , en un indice del 1 al 10.
-	  response.objetividad = Math.round(objectivity / doc.sentences().get().length) * 10;
+     // Computamos objetividad...
+     // Cantidad de oraciones objetivas / Total de oraciones del texto , en un indice del 1 al 10.
+     response.objetividad = Math.round(objectivity / doc.sentences().get().length) * 10;
 
-	  // Computamos accesibilidad...
+      // Computamos accesibilidad...
       // Facilidad de lectura (LorcaJS) en un indice del 1 al 10
       const readability = Math.round((doc.ifsz().get() / 100)) * 10;
 
@@ -407,7 +428,11 @@ router.post('/filter', (req, res, next) => {
       if (response.fuentes.length > 5) {
         sources = 10;
       } else {
+<<<<<<< HEAD
 	  sources = (response.fuentes.length / 5) * 10;
+=======
+          sources = (response.fuentes.length / 5) * 10;
+>>>>>>> b7b198919df0bb002ddc8d1586ebb0552dbf9b4e
       }
       response.verificabilidad = Math.round((verificability * 0.8 + sources * 0.2) / 2);
 
@@ -496,6 +521,7 @@ router.post('/filter', (req, res, next) => {
       const score = criterias[0].rating + criterias[1].rating + criterias[2].rating + criterias[3].rating;
 
       response.puntaje = Math.round(sim * 100) / 100;
+<<<<<<< HEAD
 
       // Creamos un fuzzy set para definir nuestro umbral de decisión
       const fuzzySet = {
@@ -531,6 +557,44 @@ router.post('/filter', (req, res, next) => {
 
 	 const resultLabel = membershipFunction(response.puntaje, fuzzySet);
 
+=======
+	  
+      // Creamos un fuzzy set para definir nuestro umbral de decisión
+      let fuzzySet = {
+        linguisticLabels: ['low', 'medium', 'high'],
+	    fuzzyNumbers: [[0,0.16,0.33], [0.33,0.49,0.66], [0.66,0.83,1]]
+      };
+
+     // Verificamos a qué label nuestro valor es más perteneciente.
+     let membershipFunction = function(n, fn) {
+	     let distL = Math.round(Math.abs(n - math.median(fn.fuzzyNumbers[0])) * 100) / 100;;
+	     let distM = Math.round(Math.abs(n - math.median(fn.fuzzyNumbers[1])) * 100) / 100;;
+	     let distH = Math.round(Math.abs(n - math.median(fn.fuzzyNumbers[2])) * 100) / 100;;
+		 
+		 let memberValue = Math.min(distL,distM,distH);
+		 let memberLabel = '';
+		 
+		 switch(memberValue) {
+           case distL:
+             memberLabel = fn.linguisticLabels[0];
+           break;
+           case distM:
+             memberLabel = fn.linguisticLabels[1];
+           break;
+		   case distH:
+		     memberLabel = fn.linguisticLabels[2];
+		   break;
+           default:
+             memberLabel = fn.linguisticLabels[0];
+         }
+		 
+	     return memberLabel;
+     };
+	 
+	 let resultLabel = membershipFunction(response.puntaje, fuzzySet);
+      
+      
+>>>>>>> b7b198919df0bb002ddc8d1586ebb0552dbf9b4e
 
       // Chequeamos si no pasamos el criterio para negativizar argumentos...
 	  if (resultLabel === 'low' || resultLabel === 'medium') {
