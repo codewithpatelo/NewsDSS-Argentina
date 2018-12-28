@@ -216,13 +216,7 @@ response = {
 * Freire, S. M., Nascimento, A., & de Almeida, R. T. (2018). A Multiple Criteria Decision Making System for Setting Priorities. World Congress on Medical Physics and Biomedical Engineering 2018, 357–361. doi:10.1007/978-981-10-9035-6_65
 * Mariana Arburua (2017). Método de Decisión Multicriterio: TOPSIS. Youtube. Retrieved from https://www.youtube.com/watch?v=p8WyEn14Cto
 
-<<<<<<< HEAD:readme.md
 
-
-
-
-
-=======
 ### Razonamiento rebatible en problemas de decisión multi-criterio
 * Ferretti, E., Errecalde, M., García, A. J., & Simari, G. R. (2007, May). An application of defeasible logic programming to decision making in a robotic environment. In International Conference on Logic Programming and Nonmonotonic Reasoning (pp. 297-302). Springer, Berlin, Heidelberg.
->>>>>>> b7b198919df0bb002ddc8d1586ebb0552dbf9b4e:README.md
+

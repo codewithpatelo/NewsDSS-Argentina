@@ -1,10 +1,9 @@
-<<<<<<< HEAD
 /** ***************************************************************************************************************
 ******************************************************************************************************************
-=======
+
 /*****************************************************************************************************************
 ******************************************************************************************************************                           
->>>>>>> b7b198919df0bb002ddc8d1586ebb0552dbf9b4e
+
                                                 index - index.js
 ******************************************************************************************************************
 ******************************************************************************************************************
@@ -83,15 +82,15 @@ const natural = require('natural');
 const lorca = require('lorca-nlp');
 
 
-<<<<<<< HEAD
+
 /** ***************************************************************************************************************
                                           Entrenamiento de clasificadores
 ***************************************************************************************************************** */
-=======
+
 /*****************************************************************************************************************                          
                                           Entrenamiento de clasificadores
 ******************************************************************************************************************/
->>>>>>> b7b198919df0bb002ddc8d1586ebb0552dbf9b4e
+
 
 // Objetividad
 const objetividad = new natural.BayesClassifier();
@@ -378,11 +377,9 @@ router.post('/filter', (req, res, next) => {
       let powerConcentration = 0;
 
 
-<<<<<<< HEAD
+
       // Pasa por cada oración y la hace clasificador por el clasificador de Bayes que entrenamos con LorcaJS.
-=======
-     // Pasa por cada oración y la hace clasificador por el clasificador de Bayes que entrenamos con LorcaJS.
->>>>>>> b7b198919df0bb002ddc8d1586ebb0552dbf9b4e
+
       for (var i = 0; i != doc.sentences().get().length; i++) {
            if (verificabilidad.classify(doc.sentences().get()[i]) === 'verificable') {
 	     verificability += 1;
@@ -521,7 +518,7 @@ router.post('/filter', (req, res, next) => {
       const score = criterias[0].rating + criterias[1].rating + criterias[2].rating + criterias[3].rating;
 
       response.puntaje = Math.round(sim * 100) / 100;
-<<<<<<< HEAD
+
 
       // Creamos un fuzzy set para definir nuestro umbral de decisión
       const fuzzySet = {
@@ -557,7 +554,7 @@ router.post('/filter', (req, res, next) => {
 
 	 const resultLabel = membershipFunction(response.puntaje, fuzzySet);
 
-=======
+
 	  
       // Creamos un fuzzy set para definir nuestro umbral de decisión
       let fuzzySet = {
@@ -594,7 +591,7 @@ router.post('/filter', (req, res, next) => {
 	 let resultLabel = membershipFunction(response.puntaje, fuzzySet);
       
       
->>>>>>> b7b198919df0bb002ddc8d1586ebb0552dbf9b4e
+
 
       // Chequeamos si no pasamos el criterio para negativizar argumentos...
 	  if (resultLabel === 'low' || resultLabel === 'medium') {
