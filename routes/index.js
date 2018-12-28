@@ -517,7 +517,7 @@ router.post('/filter', (req, res, next) => {
 
 
       // Creamos un fuzzy set para definir nuestro umbral de decisión
-      const fuzzySet = {
+      let fuzzySet = {
         linguisticLabels: ['low', 'medium', 'high'],
 	    fuzzyNumbers: [[0, 0.16, 0.33], [0.33, 0.49, 0.66], [0.66, 0.83, 1]],
       };
@@ -553,7 +553,7 @@ router.post('/filter', (req, res, next) => {
 
 	  
       // Creamos un fuzzy set para definir nuestro umbral de decisión
-      let fuzzySet = {
+      fuzzySet = {
         linguisticLabels: ['low', 'medium', 'high'],
 	    fuzzyNumbers: [[0,0.16,0.33], [0.33,0.49,0.66], [0.66,0.83,1]]
       };
