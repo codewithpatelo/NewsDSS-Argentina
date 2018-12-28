@@ -1,5 +1,10 @@
 # Asistente Inteligente analizador de noticias BETA
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/917d07fdcd1d4804b3b846995902f3dc)](https://app.codacy.com/app/patelotech/NewsDSS-Argentina?utm_source=github.com&utm_medium=referral&utm_content=patelotech/NewsDSS-Argentina&utm_campaign=Badge_Grade_Dashboard)
+[![build](https://travis-ci.org/patelotech/NewsDSS-Argentina.svg?branch=master)](https://travis-ci.org/patelotech/NewsDSS-Argentina)
+[![dependencies Status](https://david-dm.org/patelotech/NewsDSS-Argentina/status.svg)](https://david-dm.org/patelotech/NewsDSS-Argentina)
+[![Known Vulnerabilities](https://snyk.io/test/github/patelotech/topsis/badge.svg?targetFile=package.json)](https://snyk.io/test/github/patelotech/topsis?targetFile=package.json)
+
 ## Descripción
 Agente inteligente que analiza el texto de un artículo noticiario Argentino para analizar si es confiable de leer o no y en base a dicho resultado, realizar una recomendación accionable argumentada.
 
@@ -146,8 +151,8 @@ El agente formula en su respuesta sintetizada un orden de prioridad de los 3 arg
 
 ### Correción y linteo:
 
-* Chequear errores: `npm run check`
-* Chequear y corregir errores:  `npm run lint` or `npm run check -- --fix`
+* Chequear errores: `npm run lint`
+* Chequear y corregir errores:  `npm run lint-fix` or `npm run lint -- --fix`
 
 
 ## Endpoints
@@ -216,5 +221,7 @@ response = {
 * Freire, S. M., Nascimento, A., & de Almeida, R. T. (2018). A Multiple Criteria Decision Making System for Setting Priorities. World Congress on Medical Physics and Biomedical Engineering 2018, 357–361. doi:10.1007/978-981-10-9035-6_65
 * Mariana Arburua (2017). Método de Decisión Multicriterio: TOPSIS. Youtube. Retrieved from https://www.youtube.com/watch?v=p8WyEn14Cto
 
+
 ### Razonamiento rebatible en problemas de decisión multi-criterio
 * Ferretti, E., Errecalde, M., García, A. J., & Simari, G. R. (2007, May). An application of defeasible logic programming to decision making in a robotic environment. In International Conference on Logic Programming and Nonmonotonic Reasoning (pp. 297-302). Springer, Berlin, Heidelberg.
+
