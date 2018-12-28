@@ -1,5 +1,9 @@
+/** ***************************************************************************************************************
+******************************************************************************************************************
+
 /*****************************************************************************************************************
 ******************************************************************************************************************                           
+
                                                 index - index.js
 ******************************************************************************************************************
 ******************************************************************************************************************
@@ -45,9 +49,11 @@ Vamos a partir de una URL de una noticia.
 
 
    En caso que el texto no pase el umbral el agente recomienda otros sitios que hablen del mismo tema.
-   
+<<<<<<< HEAD
+
 ******************************************************************************************************************
-*****************************************************************************************************************/
+**************************************************************************************************************** */
+
 
 const express = require('express');
 
@@ -72,9 +78,15 @@ const natural = require('natural');
 const lorca = require('lorca-nlp');
 
 
+
+/** ***************************************************************************************************************
+                                          Entrenamiento de clasificadores
+***************************************************************************************************************** */
+
 /*****************************************************************************************************************                          
                                           Entrenamiento de clasificadores
 ******************************************************************************************************************/
+
 
 // Objetividad
 const objetividad = new natural.BayesClassifier();
@@ -361,7 +373,9 @@ router.post('/filter', (req, res, next) => {
       let powerConcentration = 0;
 
 
-     // Pasa por cada oración y la hace clasificador por el clasificador de Bayes que entrenamos con LorcaJS.
+
+      // Pasa por cada oración y la hace clasificador por el clasificador de Bayes que entrenamos con LorcaJS.
+
       for (var i = 0; i != doc.sentences().get().length; i++) {
            if (verificabilidad.classify(doc.sentences().get()[i]) === 'verificable') {
 	     verificability += 1;
@@ -407,7 +421,11 @@ router.post('/filter', (req, res, next) => {
       if (response.fuentes.length > 5) {
         sources = 10;
       } else {
+
+	  sources = (response.fuentes.length / 5) * 10;
+
           sources = (response.fuentes.length / 5) * 10;
+
       }
       response.verificabilidad = Math.round((verificability * 0.8 + sources * 0.2) / 2);
 
@@ -496,43 +514,43 @@ router.post('/filter', (req, res, next) => {
       const score = criterias[0].rating + criterias[1].rating + criterias[2].rating + criterias[3].rating;
 
       response.puntaje = Math.round(sim * 100) / 100;
-	  
+
+
       // Creamos un fuzzy set para definir nuestro umbral de decisión
       let fuzzySet = {
         linguisticLabels: ['low', 'medium', 'high'],
-	    fuzzyNumbers: [[0,0.16,0.33], [0.33,0.49,0.66], [0.66,0.83,1]]
+	    fuzzyNumbers: [[0, 0.16, 0.33], [0.33, 0.49, 0.66], [0.66, 0.83, 1]],
       };
 
-     // Verificamos a qué label nuestro valor es más perteneciente.
-     let membershipFunction = function(n, fn) {
-	     let distL = Math.round(Math.abs(n - math.median(fn.fuzzyNumbers[0])) * 100) / 100;;
-	     let distM = Math.round(Math.abs(n - math.median(fn.fuzzyNumbers[1])) * 100) / 100;;
-	     let distH = Math.round(Math.abs(n - math.median(fn.fuzzyNumbers[2])) * 100) / 100;;
-		 
-		 let memberValue = Math.min(distL,distM,distH);
+      // Verificamos a qué label nuestro valor es más perteneciente.
+      const membershipFunction = function (n, fn) {
+	     const distL = Math.round(Math.abs(n - math.median(fn.fuzzyNumbers[0])) * 100) / 100;
+	     const distM = Math.round(Math.abs(n - math.median(fn.fuzzyNumbers[1])) * 100) / 100;
+	     const distH = Math.round(Math.abs(n - math.median(fn.fuzzyNumbers[2])) * 100) / 100;
+
+		 const memberValue = Math.min(distL, distM, distH);
 		 let memberLabel = '';
-		 
-		 switch(memberValue) {
-           case distL:
-             memberLabel = fn.linguisticLabels[0];
-           break;
-           case distM:
-             memberLabel = fn.linguisticLabels[1];
-           break;
+
+		 switch (memberValue) {
+          case distL:
+            memberLabel = fn.linguisticLabels[0];
+            break;
+          case distM:
+            memberLabel = fn.linguisticLabels[1];
+            break;
 		   case distH:
 		     memberLabel = fn.linguisticLabels[2];
 		   break;
-           default:
-             memberLabel = fn.linguisticLabels[0];
-         }
-		 
-	     return memberLabel;
-     };
-	 
-	 let resultLabel = membershipFunction(response.puntaje, fuzzySet);
-      
-      
+          default:
+            memberLabel = fn.linguisticLabels[0];
+        }
 
+	     return memberLabel;
+      };
+
+	 const resultLabel = membershipFunction(response.puntaje, fuzzySet);
+
+      
       // Chequeamos si no pasamos el criterio para negativizar argumentos...
 	  if (resultLabel === 'low' || resultLabel === 'medium') {
 	    criterias[0].argument = 'en general, el texto abusa de la opinión y el lenguaje subjetivo';
