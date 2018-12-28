@@ -550,45 +550,7 @@ router.post('/filter', (req, res, next) => {
 
 	 const resultLabel = membershipFunction(response.puntaje, fuzzySet);
 
-
-	  
-      // Creamos un fuzzy set para definir nuestro umbral de decisión
-      fuzzySet = {
-        linguisticLabels: ['low', 'medium', 'high'],
-	    fuzzyNumbers: [[0,0.16,0.33], [0.33,0.49,0.66], [0.66,0.83,1]]
-      };
-
-     // Verificamos a qué label nuestro valor es más perteneciente.
-     let membershipFunction = function(n, fn) {
-	     let distL = Math.round(Math.abs(n - math.median(fn.fuzzyNumbers[0])) * 100) / 100;;
-	     let distM = Math.round(Math.abs(n - math.median(fn.fuzzyNumbers[1])) * 100) / 100;;
-	     let distH = Math.round(Math.abs(n - math.median(fn.fuzzyNumbers[2])) * 100) / 100;;
-		 
-		 let memberValue = Math.min(distL,distM,distH);
-		 let memberLabel = '';
-		 
-		 switch(memberValue) {
-           case distL:
-             memberLabel = fn.linguisticLabels[0];
-           break;
-           case distM:
-             memberLabel = fn.linguisticLabels[1];
-           break;
-		   case distH:
-		     memberLabel = fn.linguisticLabels[2];
-		   break;
-           default:
-             memberLabel = fn.linguisticLabels[0];
-         }
-		 
-	     return memberLabel;
-     };
-	 
-	 let resultLabel = membershipFunction(response.puntaje, fuzzySet);
       
-      
-
-
       // Chequeamos si no pasamos el criterio para negativizar argumentos...
 	  if (resultLabel === 'low' || resultLabel === 'medium') {
 	    criterias[0].argument = 'en general, el texto abusa de la opinión y el lenguaje subjetivo';
