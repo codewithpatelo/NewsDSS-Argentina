@@ -5,6 +5,7 @@
 [![build](https://travis-ci.org/patelotech/NewsDSS-Argentina.svg?branch=master)](https://travis-ci.org/patelotech/NewsDSS-Argentina)
 [![dependencies Status](https://david-dm.org/patelotech/NewsDSS-Argentina/status.svg)](https://david-dm.org/patelotech/NewsDSS-Argentina)
 [![Known Vulnerabilities](https://snyk.io/test/github/patelotech/topsis/badge.svg?targetFile=package.json)](https://snyk.io/test/github/patelotech/topsis?targetFile=package.json)
+[![slack](https://img.shields.io/badge/slack-join-blue.svg)](https://iaar.slack.com)
 
 ## Descripción
 Agente inteligente que analiza el texto de un artículo noticiario Argentino para analizar si es confiable de leer o no y en base a dicho resultado, realizar una recomendación accionable argumentada.
