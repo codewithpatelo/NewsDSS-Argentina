@@ -6,6 +6,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/patelotech/NewsDSS-Argentina/badge.svg?branch=master)](https://coveralls.io/github/patelotech/NewsDSS-Argentina?branch=master)
 [![dependencies Status](https://david-dm.org/patelotech/NewsDSS-Argentina/status.svg)](https://david-dm.org/patelotech/NewsDSS-Argentina)
 [![Known Vulnerabilities](https://snyk.io/test/github/patelotech/topsis/badge.svg?targetFile=package.json)](https://snyk.io/test/github/patelotech/topsis?targetFile=package.json)
+[![license](https://img.shields.io/badge/license-GNUv3-blue.svg)](https://github.com/patelotech/NewsDSS-Argentina/blob/master/LICENSE.md)
 [![slack](https://img.shields.io/badge/slack-join-blue.svg)](https://iaar.slack.com)
 
 ## Descripción
