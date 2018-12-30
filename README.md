@@ -3,6 +3,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/917d07fdcd1d4804b3b846995902f3dc)](https://app.codacy.com/app/patelotech/NewsDSS-Argentina?utm_source=github.com&utm_medium=referral&utm_content=patelotech/NewsDSS-Argentina&utm_campaign=Badge_Grade_Dashboard)
 [![build](https://travis-ci.org/patelotech/NewsDSS-Argentina.svg?branch=master)](https://travis-ci.org/patelotech/NewsDSS-Argentina)
+[![Coverage Status](https://coveralls.io/repos/github/patelotech/NewsDSS-Argentina/badge.svg?branch=master)](https://coveralls.io/github/patelotech/NewsDSS-Argentina?branch=master)
 [![dependencies Status](https://david-dm.org/patelotech/NewsDSS-Argentina/status.svg)](https://david-dm.org/patelotech/NewsDSS-Argentina)
 [![Known Vulnerabilities](https://snyk.io/test/github/patelotech/topsis/badge.svg?targetFile=package.json)](https://snyk.io/test/github/patelotech/topsis?targetFile=package.json)
 [![slack](https://img.shields.io/badge/slack-join-blue.svg)](https://iaar.slack.com)

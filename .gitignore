@@ -1,4 +1,6 @@
 # dependencies
 /node_modules
+/coverage
+.coveralls.yml
 # environmental varibles
 .env
