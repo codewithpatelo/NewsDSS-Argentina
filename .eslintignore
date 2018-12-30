@@ -1,5 +1,6 @@
 # dependencies
 /node_modules
 /public/assests
+LICENSE.md
 # environmental varibles
 .env
