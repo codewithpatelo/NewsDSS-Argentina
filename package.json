@@ -48,7 +48,7 @@
     "moment": "^2.22.2",
     "morgan": "~1.9.0",
     "natural": "^0.6.2",
-    "striptags": "^3.1.1",
+    "striptags": "^3.2.0",
     "swagger-tools": "^0.10.3",
     "uuid": "^3.2.1"
   },
