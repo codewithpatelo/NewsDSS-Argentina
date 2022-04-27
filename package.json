@@ -34,7 +34,7 @@
     "csvtojson": "^2.0.8",
     "debug": "~2.6.9",
     "dotenv": "^5.0.1",
-    "ejs": "^2.6.1",
+    "ejs": "^3.1.7",
     "euclidean-distance": "^1.0.0",
     "express": "~4.16.0",
     "fs": "0.0.1-security",
